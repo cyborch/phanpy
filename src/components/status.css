@@ -103,6 +103,9 @@
   justify-content: space-between;
   white-space: nowrap;
 }
+.status > .container > .meta .translate {
+  flex-grow: 1;
+}
 .status.small > .container > .meta {
   margin-bottom: 4px;
 }
