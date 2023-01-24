@@ -105,6 +105,7 @@
 }
 .status > .container > .meta .translate {
   flex-grow: 1;
+  flex-shrink: 0;
 }
 .status.small > .container > .meta {
   margin-bottom: 4px;
@@ -955,4 +956,57 @@ a.card:is(:hover, :focus) {
 #edit-history .history-item .status {
   border: 1px solid var(--outline-color);
   border-radius: 8px;
+}
+
+/* TRANSLATE */
+
+@keyframes translate-in {
+  0% {
+    filter: none;
+  }
+  1% {
+    filter: blur(0.01px) invert(0.5);
+    text-rendering: optimizeSpeed;
+    pointer-events: none;
+    user-select: none;
+    contain: layout;
+  }
+  100% {
+    filter: blur(5px) invert(0.5);
+    text-rendering: optimizeSpeed;
+    pointer-events: none;
+    user-select: none;
+    contain: layout;
+  }
+}
+.status .content.translate-in {
+  filter: blur(5px) invert(0.5);
+  text-rendering: optimizeSpeed;
+  pointer-events: none;
+  user-select: none;
+  contain: layout;
+  animation: translate-in 2s;
+}
+
+@keyframes translate-out {
+  0% {
+    filter: blur(5px) invert(0.5);
+    text-rendering: optimizeSpeed;
+    pointer-events: none;
+    user-select: none;
+    contain: layout;
+  }
+  99% {
+    filter: blur(0.01px) invert(0.5);
+    text-rendering: optimizeSpeed;
+    pointer-events: none;
+    user-select: none;
+    contain: layout;
+  }
+  100% {
+    filter: none;
+  }
+}
+.status .content.translate-out {
+  animation: translate-out 2s;
 }

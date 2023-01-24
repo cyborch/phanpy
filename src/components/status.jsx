@@ -253,8 +253,24 @@ function Status({
                   e.preventDefault();
                   e.stopPropagation();
                   if (!translation) {
+                    if (contentRef.current) {
+                      contentRef.current.classList.remove(
+                        'translate-out'
+                      );
+                      contentRef.current.classList.add(
+                        'translate-in'
+                      );
+                    }
                     (async () => {
                       const translation = await translateStatus(status);
+                      if (contentRef.current) {
+                        contentRef.current.classList.remove(
+                          'translate-in'
+                        );
+                        contentRef.current.classList.add(
+                          'translate-out'
+                        );
+                      }
                       if (translation && translation.content) {
                         saveStatus({
                           ...status,
