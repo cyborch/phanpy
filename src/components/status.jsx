@@ -27,6 +27,7 @@ import states, { saveStatus } from '../utils/states';
 import store from '../utils/store';
 import useDebouncedCallback from '../utils/useDebouncedCallback';
 import visibilityIconsMap from '../utils/visibility-icons-map';
+import translateStatus from '../utils/translate';
 
 import Avatar from './avatar';
 import Icon from './icon';
@@ -101,6 +102,7 @@ function Status({
     inReplyToId,
     inReplyToAccountId,
     content,
+    translation,
     mentions,
     mediaAttachments,
     reblog,
@@ -196,6 +198,8 @@ function Status({
 
   const statusRef = useRef(null);
 
+  const [showTranslated, setShowTranslated] = useState(false);
+
   return (
     <article
       ref={statusRef}
@@ -241,6 +245,37 @@ function Status({
             showAvatar={size === 's'}
             showAcct={size === 'l'}
           />
+          {language !== 'en' &&
+            (<span class="translate">
+              <a
+                href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (!translation) {
+                    (async () => {
+                      const translation = await translateStatus(status);
+                      if (translation && translation.content) {
+                        saveStatus({
+                          ...status,
+                          translation,
+                        });
+                        setShowTranslated(true);
+                      }
+                    })();
+                  } else {
+                    setShowTranslated(!showTranslated);
+                  }
+                }}
+              >
+                <Icon
+                  icon='translate'
+                  alt=' '
+                  size="s"
+                /> {showTranslated ? 'original' : 'translate'}
+              </a>
+            </span>)
+          }
           {/* {inReplyToAccount && !withinContext && size !== 's' && (
               <>
                 {' '}
@@ -306,7 +341,7 @@ function Status({
             size === 'l' && {
               '--content-text-weight':
                 Math.round(
-                  (spoilerText.length + htmlContentLength(content)) / 140,
+                  (spoilerText.length + htmlContentLength(showTranslated ? status.translation.content : content)) / 140,
                 ) || 1,
             }
           }
@@ -346,7 +381,7 @@ function Status({
             data-read-more={readMoreText}
             onClick={handleAccountLinks({ mentions })}
             dangerouslySetInnerHTML={{
-              __html: enhanceContent(content, {
+              __html: enhanceContent(showTranslated ? status.translation.content : content, {
                 emojis,
                 postEnhanceDOM: (dom) => {
                   dom
