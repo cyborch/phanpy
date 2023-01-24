@@ -1,0 +1,15 @@
+.filter .name {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.filter .contents {
+  display: block;
+  text-align: left !important;
+}
+
+.filter .note {
+  opacity: 75%;
+  line-height: 1.4em;
+}
