@@ -5,6 +5,7 @@ import { useReducer, useRef, useState } from 'preact/hooks';
 import { useSnapshot } from 'valtio';
 
 import Avatar from '../components/avatar';
+import Filter from '../components/filter';
 import Icon from '../components/icon';
 import Link from '../components/link';
 import NameText from '../components/name-text';
@@ -230,6 +231,18 @@ function Settings({ onClose }) {
               Boosts carousel (experimental)
             </label>
           </li>
+        </ul>
+        <h2>
+          Filters
+          {moreThanOneAccount && (<> (current account)</>)}
+        </h2>
+        <ul class="section">
+          {store.session.getJSON('filters').map((filter, index, array) => (
+            <>
+              <li><Filter filter={filter}></Filter></li>
+              { index !== array.length - 1 && (<hr />) }
+            </>
+          ))}
         </ul>
         <h2>Hidden features</h2>
         <section>
