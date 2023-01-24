@@ -48,6 +48,7 @@ const ICONS = {
   thread: 'mingcute:route-line',
   group: 'mingcute:group-line',
   bot: 'mingcute:android-2-line',
+  translate: 'mingcute:translate-line',
 };
 
 const modules = import.meta.glob('/node_modules/@iconify-icons/mingcute/*.js');
