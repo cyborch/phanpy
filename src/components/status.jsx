@@ -261,6 +261,8 @@ function Status({
                           translation,
                         });
                         setShowTranslated(true);
+                      } else if (translation.error) {
+                        alert(`Failed translating status: ${translation.error}`);
                       }
                     })();
                   } else {
